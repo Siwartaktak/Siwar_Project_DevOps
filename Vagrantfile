@@ -3,8 +3,10 @@
 
 Vagrant.configure("2") do |config|
 
-  # Ubuntu 18.04 LTS (stable for Jenkins, Docker, etc.)
-  config.vm.box = "ubuntu/focal64"
+  # --------------------------
+  # BASE BOX
+  # --------------------------
+  config.vm.box = "ubuntu/focal64"  # Ubuntu 20.04 LTS (Focal)
 
   # --------------------------
   # NETWORK (PORT FORWARDING)
@@ -12,7 +14,7 @@ Vagrant.configure("2") do |config|
   # Jenkins on port 8080
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   # SonarQube on port 9000
-  config.vm.network "forwarded_port", guest: 9000, host: 9000
+  config.vm.network "private_network", ip: "192.168.56.10"
   # Nexus Repository Manager on port 8081
   config.vm.network "forwarded_port", guest: 8081, host: 8081
   # Grafana on port 3000
@@ -24,8 +26,8 @@ Vagrant.configure("2") do |config|
   # VM RESOURCES
   # --------------------------
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "4096"   # 4 GB RAM (needed for Jenkins + SonarQube)
-    vb.cpus = 2
+    vb.memory = "8192"   # 8 GB RAM (needed for Jenkins + SonarQube)
+    vb.cpus = 4
   end
 
   # --------------------------
