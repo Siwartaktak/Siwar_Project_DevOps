@@ -8,35 +8,37 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Siwartaktak/Siwar_Project_DevOps.git'
             }
         }
 
-        stage('Build') {
+        stage('Build JAR') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn clean install -DskipTests'
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                sh 'mvn test'
             }
         }
 
         stage('Docker Build & Push') {
             steps {
                 sh '''
-                docker build -t student-management:latest .
+                    docker build -t student-management:latest .
                 '''
-            }
-        }
-
-        stage('Unit Tests') {
-            steps {
-                sh 'mvn test'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker-compose down && docker-compose up -d'
+                sh 'docker-compose down || true'
+                sh 'docker-compose up -d'
             }
         }
     }
