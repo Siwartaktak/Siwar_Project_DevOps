@@ -36,12 +36,15 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                sh 'docker-compose down || true'
-                sh 'docker-compose up -d'
-            }
+           steps {
+              script {
+            // Remove any existing containers with the same name
+                  sh 'docker rm -f student-mysql || true'
+            // Bring up the containers
+                  sh 'docker-compose up -d'
         }
     }
+}
 
     post {
         success { echo 'Pipeline completed successfully!' }
