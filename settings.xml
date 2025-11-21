@@ -16,45 +16,46 @@
     </server>
   </servers>
 
-  <profiles>
-    <profile>
-      <id>nexus</id>
-      <repositories>
-        <repository>
-          <id>nexus-releases</id>
-          <url>http://nexus:8081/repository/maven-releases/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>nexus-snapshots</id>
-          <url>http://nexus:8081/repository/maven-snapshots/</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>nexus-plugins</id>
-          <url>http://nexus:8081/repository/maven-public/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </pluginRepository>
-      </pluginRepositories>
-    </profile>
-  </profiles>
+ <profiles>
+  <profile>
+    <id>nexus</id>
+    <repositories>
+      <repository>
+        <id>nexus-releases</id>
+        <url>http://192.168.56.10:8081/repository/maven-releases/</url>
+        <releases>
+          <enabled>true</enabled>
+        </releases>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+      </repository>
+      <repository>
+        <id>nexus-snapshots</id>
+        <url>http://192.168.56.10:8081/repository/maven-snapshots/</url>
+        <releases>
+          <enabled>false</enabled>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+      </repository>
+    </repositories>
+    <pluginRepositories>
+      <pluginRepository>
+        <id>nexus-plugins</id>
+        <url>http://192.168.56.10:8081/repository/maven-public/</url>
+        <releases>
+          <enabled>true</enabled>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+      </pluginRepository>
+    </pluginRepositories>
+  </profile>
+</profiles>
+
 
   <activeProfiles>
     <activeProfile>nexus</activeProfile>
