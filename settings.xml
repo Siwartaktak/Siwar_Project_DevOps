@@ -1,0 +1,63 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <servers>
+    <server>
+      <id>nexus-snapshots</id>
+      <username>admin</username>
+      <password>e278bf9e-3114-48c7-80d3-cbee2ea59e5b2</password>
+    </server>
+    <server>
+      <id>nexus-releases</id>
+      <username>admin</username>
+      <password>e278bf9e-3114-48c7-80d3-cbee2ea59e5b2</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>nexus</id>
+      <repositories>
+        <repository>
+          <id>nexus-releases</id>
+          <url>http://nexus:8081/repository/maven-releases/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>nexus-snapshots</id>
+          <url>http://nexus:8081/repository/maven-snapshots/</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>nexus-plugins</id>
+          <url>http://nexus:8081/repository/maven-public/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>nexus</activeProfile>
+  </activeProfiles>
+
+</settings>
