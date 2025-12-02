@@ -1,0 +1,6 @@
+﻿**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+deployment-status.txt
