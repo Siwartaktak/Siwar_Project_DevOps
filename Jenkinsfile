@@ -68,14 +68,13 @@ pipeline {
 
         stage('Terraform Setup') {
             steps {
-                dir('terraform') {
-                    sh """
-                        terraform init
-                        terraform apply -auto-approve
-                    """
-                }
-            }
-        }
+               script {
+               def terraform = tool name: 'terraform', type: 'terraform'
+               sh "${terraform} init"
+               sh "${terraform} apply -auto-approve"
+           }
+       }
+   }
 
         stage('Kubernetes Deployment') {
             steps {
