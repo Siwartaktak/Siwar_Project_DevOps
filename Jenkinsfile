@@ -69,10 +69,20 @@ pipeline {
         stage('Terraform Setup') {
             steps {
                 script {
-                    def terraform = tool name: 'terraform', type: 'terraform'
-                    sh "chmod +x ${terraform}"
-                    sh "${terraform} init"
-                    sh "${terraform} apply -auto-approve"
+                    // Assuming terraform files are in the root or specify the directory
+                    sh """
+                        docker run --rm \
+                            -v \${PWD}:/workspace \
+                            -w /workspace \
+                            hashicorp/terraform:latest \
+                            init
+                        
+                        docker run --rm \
+                            -v \${PWD}:/workspace \
+                            -w /workspace \
+                            hashicorp/terraform:latest \
+                            apply -auto-approve
+                    """
                 }
             }
         }
@@ -89,7 +99,15 @@ pipeline {
     }
 
     post {
-        success { echo 'Pipeline completed successfully!' }
-        failure { echo 'Pipeline failed. Check the logs!' }
+        success { 
+            echo 'Pipeline completed successfully!' 
+        }
+        failure { 
+            echo 'Pipeline failed. Check the logs!' 
+        }
+        always {
+            // Cleanup docker containers if needed
+            sh 'docker system prune -f || true'
+        }
     }
 }
