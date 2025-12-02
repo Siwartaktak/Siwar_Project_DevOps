@@ -9,6 +9,7 @@ pipeline {
         NEXUS_REPO_SNAPSHOT = 'nexus-snapshots'
         NEXUS_REPO_RELEASE = 'nexus-releases'
         K8S_NAMESPACE = 'student-management'
+        TERRAFORM_DIR = 'terraform'
     }
 
     stages {
@@ -50,9 +51,6 @@ pipeline {
             steps {
                 sh """
                     docker build -t $DOCKER_IMAGE .
-                    # Optionally tag for Nexus Docker registry if you have one
-                    # docker tag $DOCKER_IMAGE nexus:8082/$DOCKER_IMAGE:latest
-                    # docker push nexus:8082/$DOCKER_IMAGE:latest
                 """
             }
         }
@@ -66,22 +64,52 @@ pipeline {
             }
         }
 
-        stage('Terraform Setup') {
+        stage('Terraform Init & Validate') {
             steps {
                 script {
-                    // Assuming terraform files are in the root or specify the directory
                     sh """
+                        echo "=== Checking Terraform files ==="
+                        ls -la ${TERRAFORM_DIR}/ || echo "Terraform directory not found"
+                        
                         docker run --rm \
-                            -v \${PWD}:/workspace \
+                            -v \${PWD}/${TERRAFORM_DIR}:/workspace \
                             -w /workspace \
                             hashicorp/terraform:latest \
                             init
                         
                         docker run --rm \
-                            -v \${PWD}:/workspace \
+                            -v \${PWD}/${TERRAFORM_DIR}:/workspace \
                             -w /workspace \
                             hashicorp/terraform:latest \
-                            apply -auto-approve
+                            validate
+                    """
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                script {
+                    sh """
+                        docker run --rm \
+                            -v \${PWD}/${TERRAFORM_DIR}:/workspace \
+                            -w /workspace \
+                            hashicorp/terraform:latest \
+                            plan -out=tfplan
+                    """
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                script {
+                    sh """
+                        docker run --rm \
+                            -v \${PWD}/${TERRAFORM_DIR}:/workspace \
+                            -w /workspace \
+                            hashicorp/terraform:latest \
+                            apply -auto-approve tfplan
                     """
                 }
             }
@@ -106,7 +134,6 @@ pipeline {
             echo 'Pipeline failed. Check the logs!' 
         }
         always {
-            // Cleanup docker containers if needed
             sh 'docker system prune -f || true'
         }
     }
