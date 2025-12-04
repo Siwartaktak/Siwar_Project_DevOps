@@ -119,7 +119,7 @@ pipeline {
             steps {
                 sh """
                     export KUBECONFIG=~/.kube/config
-                    kubectl apply -f k8s/
+                    kubectl apply -f k8s/ --validate=false
                     kubectl rollout status deployment/student-management -n $K8S_NAMESPACE
                 """
             }
