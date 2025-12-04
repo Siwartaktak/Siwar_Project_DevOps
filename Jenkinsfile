@@ -116,14 +116,14 @@ pipeline {
         }
 
         stage('Kubernetes Deployment') {
-            steps {
-                sh """
-                    export KUBECONFIG=~/.kube/config
-                    kubectl apply -f k8s/ --validate=false
-                    kubectl rollout status deployment/student-management -n $K8S_NAMESPACE
-                """
-            }
-        }
+           steps {
+              sh '''#!/bin/bash
+                 export KUBECONFIG=/var/lib/jenkins/.kube/config
+                 /usr/bin/kubectl apply -f k8s/ --validate=false
+                 /usr/bin/kubectl rollout status deployment/student-management -n student-management
+              '''
+    }
+}
     }
 
     post {
