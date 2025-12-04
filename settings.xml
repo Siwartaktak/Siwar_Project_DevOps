@@ -7,12 +7,12 @@
     <server>
       <id>nexus-snapshots</id>
       <username>admin</username>
-      <password>24cb1bd3-7752-4473-894d-be98887a8171</password>
+      <password>admin123</password>
     </server>
     <server>
       <id>nexus-releases</id>
       <username>admin</username>
-      <password>24cb1bd3-7752-4473-894d-be98887a8171</password>
+      <password>admin123</password>
     </server>
   </servers>
 
