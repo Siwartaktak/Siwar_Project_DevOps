@@ -48,12 +48,13 @@ pipeline {
         }
 
         stage('Docker Build & Push') {
-            steps {
-                sh """
-                    docker build -t $DOCKER_IMAGE .
+           steps {
+              sh """
+                 eval \$(minikube docker-env)
+                 docker build -t $DOCKER_IMAGE .
                 """
-            }
-        }
+    }
+}
 
         stage('Deploy Docker') {
             steps {

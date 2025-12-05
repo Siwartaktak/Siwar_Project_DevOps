@@ -16,9 +16,9 @@ spec:
       containers:
       - name: student-management
         image: student-management:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Never
         ports:
-        - containerPort: 8080
+        - containerPort: 8089  # Changed from 8080 to 8089
         env:
         - name: SPRING_DATASOURCE_URL
           value: jdbc:mysql://mysql:3306/studentdb
@@ -31,13 +31,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8080
+            port: 8089  # Changed from 8080 to 8089
           initialDelaySeconds: 60
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health
-            port: 8080
+            port: 8089  # Changed from 8080 to 8089
           initialDelaySeconds: 30
           periodSeconds: 5
 ---
@@ -52,6 +52,6 @@ spec:
     app: student-management
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
-      nodePort: 30080
+      port: 8089  # Changed from 8080 to 8089
+      targetPort: 8089  # Changed from 8080 to 8089
+      nodePort: 30089  # Changed from 30080 to 30089
