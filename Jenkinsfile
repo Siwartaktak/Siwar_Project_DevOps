@@ -49,10 +49,13 @@ pipeline {
 
         stage('Docker Build & Push') {
            steps {
-              sh """
-                 eval \$(minikube docker-env)
-                 docker build -t $DOCKER_IMAGE .
-                """
+              sh '''
+                 # Build image with local Docker
+                 docker build --no-cache -t student-management:latest .
+            
+                 # Load image into Minikube
+                 minikube image load student-management:latest
+               '''
     }
 }
 
