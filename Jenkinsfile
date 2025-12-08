@@ -71,7 +71,7 @@ pipeline {
                         sh """
                             mvn sonar:sonar \
                                 -Dsonar.host.url=${SONARQUBE_URL} \
-                                -Dsonar.login=squ_fa1516551ff6d24d83ffc0188f62ef86d1ff4f1f
+                                -Dsonar.login=squ_e0a0f02ce8122109e582874cf67f2448d14878bf
                         """
                     } else {
                         echo "⚠️ WARNING: SonarQube is not ready after 3 minutes. Skipping analysis."
